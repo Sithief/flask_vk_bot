@@ -20,7 +20,7 @@ def message_processing(msg):
 def vk_callback():
     content = request.get_json(force=True)
     if content.get('type') == 'confirmation':
-        confirm = CONF.get('VK', 'confirm', fallback='no confirm')
+        confirm = CONF.get('VK_confirm')
         return confirm
 
     elif content.get('type') == 'message_new':
