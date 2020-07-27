@@ -1,1 +1,1 @@
-web: example_app.py
+web: python example_app.py
