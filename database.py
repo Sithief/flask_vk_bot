@@ -16,5 +16,8 @@ class Clicker(db.Model):
 
 
 def migration():
-    db.create_all()
+    try:
+        db.create_all()
+    except:
+        pass
 
