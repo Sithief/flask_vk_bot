@@ -3,6 +3,7 @@ from database import *
 from menu import menu_hub
 
 events = list()
+migration()
 
 
 def message_processing(msg):

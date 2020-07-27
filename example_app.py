@@ -1,6 +1,4 @@
-from bot_core import main
-import database
+from bot_core.main import app
 
 if __name__ == "__main__":
-    database.migration()
-    main.app.run()
+    app.run()
