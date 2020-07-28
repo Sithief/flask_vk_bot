@@ -12,7 +12,6 @@ from bot_core import vk_api
 base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 log_path = os.path.join(base_path, 'log')
 conf_path = os.path.join(base_path, 'config.cfg')
-db_path = os.path.join(base_path, 'data.db')
 CONF = dict()
 
 
@@ -46,17 +45,19 @@ def read_config():
     is_prod = os.environ.get('ENVIRON', None)
     if is_prod:
         CONF = {'VK_token': os.environ.get('VK_TOKEN', None),
-                'VK_confirm': os.environ.get('VK_CONFIRM', None)}
+                'VK_confirm': os.environ.get('VK_CONFIRM', None),
+                'DB_url': os.environ.get('DATABASE_URL')}
     else:
         conf = configparser.ConfigParser()
         conf.read(conf_path, encoding='utf-8')
         CONF = {'VK_token': conf.get('VK', 'token'),
-                'VK_confirm': conf.get('VK', 'confirm')}
+                'VK_confirm': conf.get('VK', 'confirm'),
+                'DB_url': conf.get('DB', 'url')}
 
 
 read_config()
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_DATABASE_URI'] = CONF['DB_url']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
