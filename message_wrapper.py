@@ -2,7 +2,7 @@ import json
 import random
 
 
-class Bot:
+class Menu:
     def __init__(self):
         self.routes = dict()
 
@@ -31,11 +31,13 @@ class Message:
         self.peer_id = peer_id
         self.text = text
         self.attachments = attachments if attachments else []
-        self.keyboard = keyboard if keyboard else self.empty_keyboard()
+        self.keyboard = keyboard
+        if keyboard is None:
+            self.empty_keyboard()
         self.random_id = random_id if random_id else random.randrange(2**64)
 
     def empty_keyboard(self, rows=10, columns=5):
-        return [[None for _ in range(columns)] for _ in range(rows)]
+        self.keyboard = [[None for _ in range(columns)] for _ in range(rows)]
 
     def add_button(self, label, menu_id, args=None, row=None, column=None, color='default'):
         vk_button = {'action': {'type': 'text',

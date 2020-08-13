@@ -1,9 +1,7 @@
 from flask import request
-from database import *
-from menu import menu_hub
+from flask_vk_bot import *
 
 events = list()
-migration()
 
 
 def message_processing(msg):
