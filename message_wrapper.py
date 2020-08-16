@@ -17,13 +17,14 @@ class Menu:
 
 
 class Token:
-    def __init__(self, msg):
+    def __init__(self, msg, prev_msg=()):
         self.user_id = msg.get('from_id', 0)
         self.text = msg.get('text', '')
         payload = json.loads(msg.get('payload', '{}'))
-        self.menu = payload.get('mid', 'main')
+        self.menu = payload.get('mid', '')
         self.args = payload.get('args', {})
         self.attachments = msg.get('attachments', [])
+        self.prev_msg = prev_msg
 
 
 class Message:
@@ -67,7 +68,7 @@ class Message:
                 return False
         return True
 
-    def keyboard_from_buttons(self, one_time=True):
+    def keyboard_from_buttons(self, one_time=False):
         keyboard = {'one_time': one_time, 'buttons': []}
         for key_row in self.keyboard:
             buttons_row = []
