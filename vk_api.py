@@ -28,9 +28,12 @@ class Api(object):
         try:
             request = self.VK_API.post(self.vk_url + method, parameters, timeout=10)
             if request.ok:
-                if request.json().get('error', {'error_code': 0})['error_code'] == 6:  # too many requests
+                request_json = request.json()
+                if request_json.get('error', {}).get('error_code') == 6:  # too many requests
                     return self.request_get(method, parameters)
-                return request.json()
+                elif request_json.get('error'):
+                    logging.error(f'api request {request_json}')
+                return request_json
             else:
                 logging.error(f'request.status_code = {request.status_code}')
                 time.sleep(5)
@@ -63,6 +66,9 @@ class Api(object):
             logging.error(f'get message error {msg_info}')
             return {}
         return msg_info['response']['items'][0]
+
+    def msg_read(self, peer_id):
+        self.request_get('messages.markAsRead', {'peer_id': peer_id, 'mark_conversation_as_read': 1})
 
     def get_user_info(self, user_id, fields='sex'):
         user_info = self.request_get('users.get', {'user_ids': user_id, 'fields': fields})

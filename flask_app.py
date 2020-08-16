@@ -14,6 +14,7 @@ def message_processing(msg):
         bot_api.msg_send(payload=bot_message.convert_msg())
     elif not menu_function:
         messages.setdefault(user_token.user_id, []).append(user_token)
+        bot_api.msg_read(user_token.user_id)
     else:
         user_token.prev_msg = messages.pop(user_token.user_id, [])
         bot_message = menu_function(user_token)

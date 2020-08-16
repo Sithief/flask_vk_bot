@@ -19,6 +19,7 @@ class Menu:
 class Token:
     def __init__(self, msg, prev_msg=()):
         self.user_id = msg.get('from_id', 0)
+        self.message_id = msg.get('id', 0)
         self.text = msg.get('text', '')
         payload = json.loads(msg.get('payload', '{}'))
         self.menu = payload.get('mid', '')
